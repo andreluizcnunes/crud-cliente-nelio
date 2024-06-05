@@ -1,15 +1,28 @@
 package br.com.api.cadastroCliente.dto;
 
 import br.com.api.cadastroCliente.entities.Cliente;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public class ClienteDTO {
     private Long id;
+    @Size(min = 3, max = 80, message = "name precisa ter de 3 a 80 caracteres.")
+    @NotBlank(message = "name é obrigatorio.")
     private String name;
+    @Column(length = 11)
+    @NotBlank(message = "CPF é obrigatorio.")
+    @Pattern(regexp="[0-9]{11}", message="CPF deve conter exatamente 11 dígitos.")
     private String cpf;
+
+    @Positive(message = "o income precisa ser positivo")
     private Double income; // renda
+
+    @PastOrPresent(message = "a data de nascimento nao pode ser futura")
     private LocalDate birthDate; // Data de Nascimento
+
+    @Positive(message = "children nao pode ser negativo")
     private Integer children;
 
     public ClienteDTO(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
